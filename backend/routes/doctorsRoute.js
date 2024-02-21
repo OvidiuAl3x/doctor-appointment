@@ -1,39 +1,105 @@
 import express from "express";
-import Doctors from "../models/doctorsModel.js";
+import Users from "../models/usersModel.js";
 
 const router = express.Router();
 
-// Route for Save a new doctor
-router.post("/", async (req, res) => {
+// Route for Create a new doctor
+router.post("/doctor", async (req, res) => {
   try {
-    if (!req.body.firstName || !req.body.firstName || !req.body.aboutMe)
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      aboutMe,
+      fieldActivity,
+      hospital,
+      schedule,
+    } = req.body;
+
+    if (!email || !password)
       return res.status(400).send({
-        message: "Send all required fields: first name, last name, about me",
+        message: "Send all required fields: email, password",
       });
 
-    const newDoctor = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      aboutMe: req.body.aboutMe,
-      fieldActivity: req.body.fieldActivity,
-      hospital: req.body.hospital,
-      schedule: req.body.schedule,
-    };
+    const doctor = new Users({
+      email: email,
+      password: password,
+      role: "doctor",
+      firstName: firstName,
+      lastName: lastName,
+      aboutMe: aboutMe,
+      fieldActivity: fieldActivity,
+      hospital: hospital,
+      schedule: schedule,
+    });
 
-    const doctor = await Doctors.create(newDoctor);
-    return res.status(200).send(doctor);
+    await doctor.save();
+    return res.status(201).json(doctor);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: err.message });
   }
 });
 
-// ! Add a delete route
+// Route for Edit a doctor
+router.put("/doctor/:id", async (req, res) => {
+  try {
+    const doctorId = req.params.id;
+
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      aboutMe,
+      fieldActivity,
+      hospital,
+      schedule,
+    } = req.body;
+
+    const existingDoctor = await Users.findById(doctorId);
+
+    if (!existingDoctor) {
+      return res.status(404).send({ message: "Doctor not found" });
+    }
+
+    if (email) existingDoctor.email = email;
+    if (password) existingDoctor.password = password;
+    if (firstName) existingDoctor.firstName = firstName;
+    if (lastName) existingDoctor.lastName = lastName;
+    if (aboutMe) existingDoctor.aboutMe = aboutMe;
+    if (fieldActivity) existingDoctor.fieldActivity = fieldActivity;
+    if (hospital) existingDoctor.hospital = hospital;
+    if (schedule) existingDoctor.schedule = schedule;
+
+    await existingDoctor.save();
+
+    return res.status(200).json(existingDoctor);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // Route for GET ALL doctors
 router.get("/", async (req, res) => {
   try {
-    const doctors = await Doctors.find();
+    const doctors = await Users.find({ role: "doctor" })
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "patient",
+          select: "firstName lastName",
+        },
+      })
+      .populate({
+        path: "appointments",
+        populate: {
+          path: "patient",
+          select: "firstName lastName",
+        },
+      });
 
     return res.status(200).json({
       count: doctors.length,
@@ -46,10 +112,31 @@ router.get("/", async (req, res) => {
 });
 
 // Route for GET One doctor by id
-router.get("/:doctorID", async (req, res) => {
+router.get("/:doctorId", async (req, res) => {
   try {
-    const { doctorID } = req.params;
-    const doctor = await Doctors.findById(doctorID);
+    const { doctorId } = req.params;
+
+    const doctor = await Users.findOne({
+      _id: doctorId,
+      role: "doctor",
+    })
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "patient",
+          select: "firstName lastName",
+        },
+      })
+      .populate({
+        path: "appointments",
+        populate: {
+          path: "patient",
+          select: "firstName lastName",
+        },
+      });
+
+    if (!doctor) return res.status(404).json({ message: "Doctor not found" });
+
     return res.status(200).json(doctor);
   } catch (err) {
     console.log(err);
@@ -58,12 +145,15 @@ router.get("/:doctorID", async (req, res) => {
 });
 
 // Route for Delete doctor
-router.delete("/:doctorID", async (req, res) => {
+router.delete("/:doctorId", async (req, res) => {
   try {
-    const { doctorID } = req.params;
-    const doctor = await Doctors.findByIdAndDelete(doctorID);
+    const { doctorId } = req.params;
+    const doctor = await Users.findOneAndDelete({
+      _id: doctorId,
+      role: "doctor",
+    });
 
-    if (!doctor) return res.status(400).json({ message: "Doctor not found" });
+    if (!doctor) return res.status(404).json({ message: "Doctor not found" });
 
     return res.status(200).send({ message: "Doctor deleted successfully" });
   } catch (err) {

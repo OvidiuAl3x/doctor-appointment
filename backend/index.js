@@ -1,8 +1,12 @@
+// index.js
 import express from "express";
 import mongoose from "mongoose";
 import { PORT, mongoDBURL } from "./config.js";
 import cors from "cors";
 import doctorRoute from "./routes/doctorsRoute.js";
+import patientRoute from "./routes/patientsRoute.js";
+import reviewsRoute from "./routes/reviewsRoute.js";
+import appointmentsRoute from "./routes/appointmentRoute.js";
 
 const app = express();
 
@@ -20,11 +24,23 @@ app.use(express.urlencoded({ extended: true }));
 
 // Add your routes here
 
+app.use("/register", doctorRoute);
 app.use("/doctors", doctorRoute);
 
+app.use("/register", patientRoute);
+app.use("/patients", patientRoute);
+
+app.use("/reviews", reviewsRoute);
+
+app.use("/appointments", appointmentsRoute);
+
+app.get("/test", (req, res) => {
+  res.status(200).send("Test route works!");
+});
+
 app.use((err, req, res, next) => {
-  console.log(err.stack);
-  res.staus(500).send("Something went wrong!");
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
 });
 
 mongoose
@@ -36,5 +52,5 @@ mongoose
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.error(err);
   });
