@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phoneNumber: {
+    type: Number,
+  },
   aboutMe: {
     type: String,
   },

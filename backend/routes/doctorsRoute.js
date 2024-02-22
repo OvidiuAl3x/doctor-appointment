@@ -11,6 +11,7 @@ router.post("/doctor", async (req, res) => {
       password,
       firstName,
       lastName,
+      phoneNumber,
       aboutMe,
       fieldActivity,
       hospital,
@@ -28,6 +29,7 @@ router.post("/doctor", async (req, res) => {
       role: "doctor",
       firstName: firstName,
       lastName: lastName,
+      phoneNumber: phoneNumber,
       aboutMe: aboutMe,
       fieldActivity: fieldActivity,
       hospital: hospital,
@@ -52,6 +54,7 @@ router.put("/doctor/:id", async (req, res) => {
       password,
       firstName,
       lastName,
+      phoneNumber,
       aboutMe,
       fieldActivity,
       hospital,
@@ -68,6 +71,7 @@ router.put("/doctor/:id", async (req, res) => {
     if (password) existingDoctor.password = password;
     if (firstName) existingDoctor.firstName = firstName;
     if (lastName) existingDoctor.lastName = lastName;
+    if (phoneNumber) existingDoctor.phoneNumber = phoneNumber;
     if (aboutMe) existingDoctor.aboutMe = aboutMe;
     if (fieldActivity) existingDoctor.fieldActivity = fieldActivity;
     if (hospital) existingDoctor.hospital = hospital;
