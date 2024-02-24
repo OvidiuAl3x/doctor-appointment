@@ -1,34 +1,18 @@
-import { SafeAreaView, ScrollView, View } from "react-native";
-import { Stack, useRouter } from "expo-router";
-import { COLORS, icons, SIZES } from "../../constants";
-import ScreenHeaderBtn from "../../components/common/header/ScreenHeaderBtn";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { COLORS, SIZES } from "../../constants";
 
 const Home = () => {
-  const router = useRouter();
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
-          ),
-          headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
-          ),
-          headerTitle: "",
-        }}
-      />
-
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flex: 1,
             padding: SIZES.medium,
           }}
-        ></View>
+        >
+          <Text>ASdasd</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

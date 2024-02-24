@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { COLORS, icons } from "../constants";
+import ScreenHeaderBtn from "../components/common/header/ScreenHeaderBtn";
 
 // export const unstable_settings = {
 //   // Ensure any route can link back to `/`
@@ -18,12 +20,24 @@ const Layout = () => {
   }
 
   return (
-    // <Stack initialRouteName="home">
     <Stack>
-      {/* <Stack.Screen name="screens/home" /> */}
-      <Stack.Screen name="screens/login" options={{ headerShown: false }} />
       <Stack.Screen
-        name="screens/signUp"
+        name="screens/Home"
+        options={{
+          headerStyle: { backgroundColor: COLORS.background },
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
+          ),
+          headerRight: () => (
+            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
+          ),
+          headerTitle: "",
+        }}
+      />
+      <Stack.Screen name="screens/Login" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="screens/SignUp"
         options={{ headerTitle: "Sign Up", headerTitleAlign: "center" }}
       />
     </Stack>

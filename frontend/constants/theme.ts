@@ -1,13 +1,13 @@
 const COLORS = {
-  primary: "#312651",
-  secondary: "#444262",
-  tertiary: "#FF7754",
+  primary: "#4bb7cc",
+  secondary: "#89d9e9",
+  tertiary: "#47d0eb",
 
   gray: "#83829A",
   gray2: "#C1C0C8",
 
-  white: "#F3F4F8",
-  lightWhite: "#FAFAFC",
+  text: "#070c0d",
+  background: "#fafdfd",
 
   blue: "#355CF5",
 };
@@ -39,7 +39,7 @@ const SHADOWS = {
     elevation: 2,
   },
   medium: {
-    shadowColor: "#000",
+    boxShadow: "#000",
     shadowOffset: {
       width: 0,
       height: 2,

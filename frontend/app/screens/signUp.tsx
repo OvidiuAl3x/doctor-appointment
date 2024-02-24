@@ -1,16 +1,13 @@
-import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
-import { useRouter } from "expo-router";
+import { Image, Text, View } from "react-native";
 import { COLORS, icons, SIZES } from "../../constants";
 
 const SignIn = () => {
-  const router = useRouter();
-
   return (
     <View
       style={{
         flex: 1,
         padding: SIZES.medium,
-        backgroundColor: COLORS.lightWhite,
+        backgroundColor: COLORS.background,
         justifyContent: "center",
         alignItems: "center",
       }}

@@ -6,13 +6,21 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { COLORS, FONT, icons, SHADOWS, SIZES } from "../../constants";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+type YourNavigationType = {
+  navigate: any;
+};
 const Login = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
@@ -26,6 +34,26 @@ const Login = () => {
     Keyboard.dismiss();
   };
 
+  const navigation = useNavigation<YourNavigationType>();
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:5555/login", {
+        email,
+        password,
+      });
+      const { data } = response;
+
+      await AsyncStorage.setItem("token", data.token);
+
+      console.log(data);
+
+      if (data.token) {
+        navigation.navigate("screens/Home");
+      }
+    } catch (error) {
+      console.log("Axios Error:", error);
+    }
+  };
   const {
     container,
     image,
@@ -60,10 +88,11 @@ const Login = () => {
                 style={inputStyle}
                 ref={emailInputRef}
                 placeholder="E-mail"
-                keyboardType="email-address"
                 autoCapitalize="none"
-                returnKeyType="next"
+                enterKeyHint="next"
                 onSubmitEditing={handleEmailSubmit}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
               />
             </View>
 
@@ -75,24 +104,30 @@ const Login = () => {
                 secureTextEntry
                 autoCapitalize="none"
                 style={inputStyle}
-                returnKeyType="done"
+                enterKeyHint="done"
                 onSubmitEditing={handlePasswordSubmit}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
               />
             </View>
 
             <Link href="" style={forgotPass}>
               Forgot Password?
             </Link>
-            <View style={[loginButtonContainer, SHADOWS.medium]}>
-              <Text style={loginButton}>LOGIN</Text>
-            </View>
+
+            <TouchableOpacity onPress={handleLogin}>
+              <View style={[loginButtonContainer, SHADOWS.medium]}>
+                <Text style={loginButton}>LOGIN</Text>
+              </View>
+            </TouchableOpacity>
           </View>
 
           <Text style={{ color: COLORS.gray, marginTop: 30 }}>
             Don't have and account?
           </Text>
+
           <Link
-            href="/screens/signUp"
+            href="/screens/SignUp"
             style={{ fontSize: SIZES.medium, color: COLORS.blue }}
           >
             Sign Up
@@ -107,7 +142,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: SIZES.medium,
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.background,
     justifyContent: "center",
     marginTop: -100,
   },
