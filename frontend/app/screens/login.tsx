@@ -1,18 +1,18 @@
 import {
   Image,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { COLORS, FONT, icons, SHADOWS, SIZES } from "../../constants";
 import { useRef } from "react";
 
 const Login = () => {
-  const router = useRouter();
-
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
@@ -34,57 +34,72 @@ const Login = () => {
     forgotPass,
     loginButton,
     loginButtonContainer,
+    iconsStyle,
+    inputParents,
   } = styles;
   return (
-    <View style={container}>
-      <Image source={icons.doctor} style={image} />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+    >
+      <View style={container}>
+        <Image source={icons.doctor} style={image} />
 
-      <View>
-        <Text style={{ fontFamily: FONT.bold, fontSize: SIZES.large }}>
-          Login
-        </Text>
-        <Text style={{ fontSize: SIZES.small, color: COLORS.gray }}>
-          Please Sign In to continue
-        </Text>
-        <View style={containerInputs}>
-          <TextInput
-            style={inputStyle}
-            ref={emailInputRef}
-            placeholder="E-mail"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            returnKeyType="next"
-            onSubmitEditing={handleEmailSubmit}
-          />
+        <View>
+          <Text style={{ fontFamily: FONT.bold, fontSize: SIZES.large }}>
+            Login
+          </Text>
+          <Text style={{ fontSize: SIZES.small, color: COLORS.gray }}>
+            Please Sign In to continue
+          </Text>
+          <View style={containerInputs}>
+            <View style={inputParents}>
+              <Image source={icons.mail} style={iconsStyle} />
+              <TextInput
+                style={inputStyle}
+                ref={emailInputRef}
+                placeholder="E-mail"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                returnKeyType="next"
+                onSubmitEditing={handleEmailSubmit}
+              />
+            </View>
 
-          <TextInput
-            ref={passwordInputRef}
-            placeholder="Password"
-            secureTextEntry
-            autoCapitalize="none"
-            style={inputStyle}
-            returnKeyType="done"
-            onSubmitEditing={handlePasswordSubmit}
-          />
-          <Link href="" style={forgotPass}>
-            Forgot Password?
-          </Link>
-          <View style={[loginButtonContainer, SHADOWS.medium]}>
-            <Text style={loginButton}>LOGIN</Text>
+            <View style={inputParents}>
+              <Image source={icons.padlock} style={iconsStyle} />
+              <TextInput
+                ref={passwordInputRef}
+                placeholder="Password"
+                secureTextEntry
+                autoCapitalize="none"
+                style={inputStyle}
+                returnKeyType="done"
+                onSubmitEditing={handlePasswordSubmit}
+              />
+            </View>
+
+            <Link href="" style={forgotPass}>
+              Forgot Password?
+            </Link>
+            <View style={[loginButtonContainer, SHADOWS.medium]}>
+              <Text style={loginButton}>LOGIN</Text>
+            </View>
           </View>
-        </View>
 
-        <Text style={{ color: COLORS.gray, marginTop: 30 }}>
-          Don't have and account?
-        </Text>
-        <Link
-          href="signIn"
-          style={{ fontSize: SIZES.medium, color: COLORS.blue }}
-        >
-          Sign Up
-        </Link>
+          <Text style={{ color: COLORS.gray, marginTop: 30 }}>
+            Don't have and account?
+          </Text>
+          <Link
+            href="/screens/signUp"
+            style={{ fontSize: SIZES.medium, color: COLORS.blue }}
+          >
+            Sign Up
+          </Link>
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -106,12 +121,21 @@ const styles = StyleSheet.create({
     // marginBottom: 5,
     // backgroundColor: "red",
   },
-  inputStyle: {
-    marginTop: 20,
-    height: 40,
+
+  inputParents: {
+    flexDirection: "row",
+    alignItems: "center",
     borderBottomColor: COLORS.gray2,
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginVertical: 10,
+  },
+  iconsStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputStyle: {
+    flex: 1,
+    height: 40,
     paddingLeft: 10,
   },
   forgotPass: {

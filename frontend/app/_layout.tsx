@@ -22,7 +22,10 @@ const Layout = () => {
     <Stack>
       {/* <Stack.Screen name="screens/home" /> */}
       <Stack.Screen name="screens/login" options={{ headerShown: false }} />
-      {/* <Stack.Screen name="screens/signIn" options={{ headerShown: false }} /> */}
+      <Stack.Screen
+        name="screens/signUp"
+        options={{ headerTitle: "Sign Up", headerTitleAlign: "center" }}
+      />
     </Stack>
   );
 };
