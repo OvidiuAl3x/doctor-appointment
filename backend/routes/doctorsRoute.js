@@ -1,10 +1,11 @@
 import express from "express";
 import Users from "../models/usersModel.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
 // Route for Create a new doctor
-router.post("/doctor", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const {
       email,
@@ -23,9 +24,11 @@ router.post("/doctor", async (req, res) => {
         message: "Send all required fields: email, password",
       });
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const doctor = new Users({
       email: email,
-      password: password,
+      password: hashedPassword,
       role: "doctor",
       firstName: firstName,
       lastName: lastName,
@@ -45,7 +48,7 @@ router.post("/doctor", async (req, res) => {
 });
 
 // Route for Edit a doctor
-router.put("/doctor/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const doctorId = req.params.id;
 
@@ -67,8 +70,12 @@ router.put("/doctor/:id", async (req, res) => {
       return res.status(404).send({ message: "Doctor not found" });
     }
 
+    const hashedPassword = password
+      ? await bcrypt.hash(password, 10)
+      : undefined;
+
     if (email) existingDoctor.email = email;
-    if (password) existingDoctor.password = password;
+    if (password) existingDoctor.password = hashedPassword;
     if (firstName) existingDoctor.firstName = firstName;
     if (lastName) existingDoctor.lastName = lastName;
     if (phoneNumber) existingDoctor.phoneNumber = phoneNumber;
