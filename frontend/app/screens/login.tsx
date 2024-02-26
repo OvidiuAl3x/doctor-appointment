@@ -1,7 +1,9 @@
 import {
+  ActivityIndicator,
   Image,
   Keyboard,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   StyleSheet,
   Text,
@@ -12,17 +14,24 @@ import {
 import { Link, useNavigation } from "expo-router";
 import { COLORS, FONT, icons, SHADOWS, SIZES } from "../../constants";
 import { useRef, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type YourNavigationType = {
   navigate: any;
 };
+
+type ErrorResponse = {
+  message: string;
+};
+
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<{ message: string }>({ message: "" });
 
   const handleEmailSubmit = () => {
     if (passwordInputRef.current) {
@@ -36,6 +45,8 @@ const Login = () => {
 
   const navigation = useNavigation<YourNavigationType>();
   const handleLogin = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.post("http://localhost:5555/login", {
         email,
@@ -47,17 +58,39 @@ const Login = () => {
 
       console.log(data);
 
-      if (data.token) {
+      setTimeout(() => {
         navigation.navigate("screens/Home");
-      }
+        setLoading(false);
+      }, 2000);
     } catch (error) {
-      console.log("Axios Error:", error);
+      if ((error as AxiosError).response) {
+        const axiosError = error as AxiosError;
+        console.log(
+          "Server responded with an error:",
+          axiosError.response?.data
+        );
+        const messageAxios = axiosError.response?.data as ErrorResponse;
+        if (messageAxios.message === "user not found") {
+          setError({ message: "user not found" });
+        }
+        if (messageAxios.message === "Invalid password") {
+          setError({ message: "Invalid password" });
+        }
+      } else if ((error as AxiosError).request) {
+        console.log("No response received from the server");
+      } else {
+        console.error(
+          "Error setting up the request:",
+          (error as Error).message
+        );
+      }
+      setLoading(false);
     }
   };
+
   const {
     container,
     image,
-    containerInputs,
     inputStyle,
     forgotPass,
     loginButton,
@@ -81,8 +114,13 @@ const Login = () => {
           <Text style={{ fontSize: SIZES.small, color: COLORS.gray }}>
             Please Sign In to continue
           </Text>
-          <View style={containerInputs}>
-            <View style={inputParents}>
+          <View>
+            <View
+              style={[
+                inputParents,
+                error.message === "user not found" && { ...styles.errorInput },
+              ]}
+            >
               <Image source={icons.mail} style={iconsStyle} />
               <TextInput
                 style={inputStyle}
@@ -96,7 +134,14 @@ const Login = () => {
               />
             </View>
 
-            <View style={inputParents}>
+            <View
+              style={[
+                inputParents,
+                error.message === "Invalid password" && {
+                  ...styles.errorInput,
+                },
+              ]}
+            >
               <Image source={icons.padlock} style={iconsStyle} />
               <TextInput
                 ref={passwordInputRef}
@@ -117,7 +162,7 @@ const Login = () => {
 
             <TouchableOpacity onPress={handleLogin}>
               <View style={[loginButtonContainer, SHADOWS.medium]}>
-                <Text style={loginButton}>LOGIN</Text>
+                <Text style={loginButton}>Login</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -133,6 +178,13 @@ const Login = () => {
             Sign Up
           </Link>
         </View>
+        <Modal visible={loading} transparent animationType="slide">
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          </View>
+        </Modal>
       </View>
     </KeyboardAvoidingView>
   );
@@ -152,11 +204,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 50,
   },
-  containerInputs: {
-    // marginBottom: 5,
-    // backgroundColor: "red",
+  errorInput: {
+    borderBottomColor: COLORS.red,
   },
-
   inputParents: {
     flexDirection: "row",
     alignItems: "center",

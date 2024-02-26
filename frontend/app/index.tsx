@@ -11,7 +11,7 @@ const Index = () => {
         const token = await AsyncStorage.getItem("token");
         if (token) {
           // Token exists, navigate to the home screen
-          navigation.navigate("screens/Home");
+          navigation.navigate("screens/Login");
         } else {
           // Token doesn't exist, navigate to the login screen
           navigation.navigate("screens/Login");

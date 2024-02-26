@@ -7,25 +7,29 @@ const router = express.Router();
 // Route for Create a new Patient
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    console.log("Received data:", req.body);
+    const { email, password, firstName, lastName, phoneNumber } = req.body;
 
-    if (!email || !password)
+    if (!email || !password || !firstName || !lastName) {
       return res.status(400).send({
-        message: "Send all required fields: email, password",
+        message:
+          "Send all required fields: email, password, firstName, lastName",
       });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    }
+    const hashedPassword = await bcrypt.hash(password || "", 10);
 
     const patient = new Users({
-      email: email,
+      email,
       password: hashedPassword,
       role: "patient",
-      firstName: firstName,
-      lastName: lastName,
+      firstName,
+      lastName,
+      phoneNumber,
     });
 
     await patient.save();
-    return res.status(201).json(patient);
+
+    res.status(201).json(patient);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: err.message });
@@ -37,7 +41,7 @@ router.put("/:id", async (req, res) => {
   try {
     const patientId = req.params.id;
 
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, firstName, lastName, phoneNumber } = req.body;
 
     const existingPatient = await Users.findById(patientId);
 
@@ -53,6 +57,7 @@ router.put("/:id", async (req, res) => {
     if (password) existingPatient.password = hashedPassword;
     if (firstName) existingPatient.firstName = firstName;
     if (lastName) existingPatient.lastName = lastName;
+    if (phoneNumber) existingPatient.phoneNumber = phoneNumber;
 
     await existingPatient.save();
 
