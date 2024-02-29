@@ -29,7 +29,12 @@ router.post("/register", async (req, res) => {
 
     await patient.save();
 
-    res.status(201).json(patient);
+    const token = jwt.sign(
+      { userId: patient._id, email: patient.email },
+      "defaultSecretKey"
+    );
+
+    res.status(201).json(patient, token);
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: err.message });
