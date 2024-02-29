@@ -1,12 +1,7 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { COLORS, icons } from "../constants";
-import ScreenHeaderBtn from "../components/common/header/ScreenHeaderBtn";
-
-// export const unstable_settings = {
-//   // Ensure any route can link back to `/`
-//   initialRouteName: "home",
-// };
+import { COLORS } from "../constants";
+import HeaderLeft from "../components/home/header/HeaderLeft";
 
 const Layout = () => {
   const [fontsLoaded] = useFonts({
@@ -26,12 +21,8 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: COLORS.background },
           headerShadowVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
-          ),
-          headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.menu} dimension={20} />
-          ),
+          headerLeft: () => <HeaderLeft />,
+          headerRight: () => <HeaderLeft />,
           headerTitle: "",
         }}
       />

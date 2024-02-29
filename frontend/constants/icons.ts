@@ -4,5 +4,6 @@ import mail from "../assets/icons/mail.png";
 import padlock from "../assets/icons/padlock.png";
 import user from "../assets/icons/user.png";
 import phone from "../assets/icons/telephone.png";
+import profile from "../assets/icons/profile.png";
 
-export default { menu, doctor, mail, padlock, user, phone };
+export default { menu, doctor, mail, padlock, user, phone, profile };

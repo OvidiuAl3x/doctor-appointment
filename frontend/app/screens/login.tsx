@@ -48,15 +48,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5555/login", {
+      const response = await axios.post("http://192.168.100.18:5555/login", {
         email,
         password,
       });
-      const { data } = response;
-
-      await AsyncStorage.setItem("token", data.token);
-
-      console.log(data);
+      const { token } = response.data;
+      console.log("Login response:", response.data);
+      await AsyncStorage.setItem("token", token);
 
       setTimeout(() => {
         navigation.navigate("screens/Home");
