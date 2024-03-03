@@ -3,21 +3,6 @@ import React from "react";
 import Swiper from "react-native-swiper";
 import { COLORS, FONT, icons } from "../../constants";
 
-const Slide = ({
-  title,
-  content,
-  image,
-}: {
-  title: string;
-  content: string;
-  image: any;
-}) => (
-  <View style={styles.slide}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.content}>{content}</Text>
-    <Image source={image} style={styles.image} />
-  </View>
-);
 const Template = () => {
   const slides = [
     {
