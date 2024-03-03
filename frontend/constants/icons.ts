@@ -5,5 +5,21 @@ import padlock from "../assets/icons/padlock.png";
 import user from "../assets/icons/user.png";
 import phone from "../assets/icons/telephone.png";
 import profile from "../assets/icons/profile.png";
+import heart from "../assets/icons/heart.png";
+import search from "../assets/icons/loupe.png";
+import templateDoctor from "../assets/icons/doctor (1).png";
+import templateDoctor2 from "../assets/icons/doctor (2).png";
 
-export default { menu, doctor, mail, padlock, user, phone, profile };
+export default {
+  menu,
+  doctor,
+  mail,
+  padlock,
+  user,
+  phone,
+  profile,
+  heart,
+  search,
+  templateDoctor,
+  templateDoctor2,
+};

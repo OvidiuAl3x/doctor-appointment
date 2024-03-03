@@ -28,15 +28,15 @@ const HeaderLeft = () => {
     const fetchUserId = async () => {
       try {
         const storedToken = await AsyncStorage.getItem("token");
-        if (storedToken) {
-          const decodedToken = jwtDecode<MyJwtPayload>(storedToken);
-          const userIdFromToken = decodedToken.userId;
+        // if (storedToken) {
+        //   const decodedToken = jwtDecode<MyJwtPayload>(storedToken);
+        //   const userIdFromToken = decodedToken.userId;
 
-          const response = await axios.get(
-            `http://192.168.100.18:5555/patients/${userIdFromToken}`
-          );
-          setData(response.data);
-        }
+        const response = await axios.get(
+          `http://192.168.100.18:5555/patients/65da20de4fcaa879135c29d9`
+        );
+        setData(response.data);
+        // }
       } catch (err) {
         console.log(err);
       }

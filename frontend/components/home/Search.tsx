@@ -1,6 +1,35 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native";
 
-import { COLORS, FONT, SIZES } from "../../../constants";
+import { COLORS, FONT, icons, SIZES } from "../../constants";
+
+const Search = () => {
+  return (
+    <View>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchWrapper}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search Doctor..."
+          />
+        </View>
+
+        <TouchableOpacity style={styles.searchBtn}>
+          <Image
+            source={icons.search}
+            resizeMode="contain"
+            style={styles.searchBtnImage}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -26,12 +55,14 @@ const styles = StyleSheet.create({
   },
   searchWrapper: {
     flex: 1,
-    backgroundColor: COLORS.white,
     marginRight: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
     height: "100%",
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    paddingHorizontal: 6,
   },
   searchInput: {
     fontFamily: FONT.regular,
@@ -42,15 +73,15 @@ const styles = StyleSheet.create({
   searchBtn: {
     width: 50,
     height: "100%",
-    backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
+    borderWidth: 2,
+    borderColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
   searchBtnImage: {
     width: "50%",
     height: "50%",
-    tintColor: COLORS.white,
   },
   tabsContainer: {
     width: "100%",
@@ -58,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default Search;
