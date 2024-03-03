@@ -18,7 +18,7 @@ const Layout = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="screens/Home"
+        name="index"
         options={{
           headerStyle: { backgroundColor: COLORS.background },
           headerShadowVisible: false,

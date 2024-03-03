@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import Search from "../components/home/Search";
+import Template from "../components/home/Template";
+import { COLORS, SIZES } from "../constants";
 
 const Index = () => {
   const navigation = useNavigation<any>();
@@ -9,11 +13,7 @@ const Index = () => {
     const checkTokenAndRedirect = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        if (token) {
-          // Token exists, navigate to the home screen
-          navigation.navigate("screens/Home");
-        } else {
-          // Token doesn't exist, navigate to the login screen
+        if (!token) {
           navigation.navigate("screens/Login");
         }
       } catch (error) {
@@ -24,7 +24,21 @@ const Index = () => {
     checkTokenAndRedirect();
   }, []); // Run this effect only once on app startup
 
-  // ... rest of your app code
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            flex: 1,
+            padding: SIZES.medium,
+          }}
+        >
+          <Search />
+          <Template />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default Index;

@@ -57,7 +57,7 @@ const Login = () => {
       await AsyncStorage.setItem("token", token);
 
       setTimeout(() => {
-        navigation.navigate("screens/Home");
+        navigation.navigate("index");
         setLoading(false);
       }, 2000);
     } catch (error) {
