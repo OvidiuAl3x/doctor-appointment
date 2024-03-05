@@ -4,7 +4,7 @@ import { COLORS, icons } from "../../../constants";
 
 const HeaderRight = () => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity style={{ paddingRight: 10 }}>
       <Image
         source={icons.heart}
         style={{ width: 30, height: 30, tintColor: COLORS.primary }}

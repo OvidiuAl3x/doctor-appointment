@@ -61,6 +61,7 @@ const HeaderLeft = () => {
 
 const styles = StyleSheet.create({
   container: {
+    paddingLeft: 10,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",

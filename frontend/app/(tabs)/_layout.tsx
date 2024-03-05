@@ -20,6 +20,7 @@ const Layout = () => {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: COLORS.primary,
+        tabBarHideOnKeyboard: true,
         // For notification number
         // tabBarBadge: 3,
         // tabBarBadgeStyle: {

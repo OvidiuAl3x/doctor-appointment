@@ -1,8 +1,5 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { COLORS } from "../constants";
-import HeaderLeft from "../components/home/header/HeaderLeft";
-import HeaderRight from "../components/home/header/HeaderRight";
 
 const Layout = () => {
   const [fontsLoaded] = useFonts({
