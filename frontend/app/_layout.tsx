@@ -17,16 +17,7 @@ const Layout = () => {
 
   return (
     <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerStyle: { backgroundColor: COLORS.background },
-          headerShadowVisible: false,
-          headerLeft: () => <HeaderLeft />,
-          headerRight: () => <HeaderRight />,
-          headerTitle: "",
-        }}
-      />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="screens/Login" options={{ headerShown: false }} />
       <Stack.Screen
         name="screens/SignUp"

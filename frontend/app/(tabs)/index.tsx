@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, ScrollView, View } from "react-native";
-import Search from "../components/home/Search";
-import Template from "../components/home/Template";
-import { COLORS, SIZES } from "../constants";
+import { COLORS, SIZES } from "../../constants";
+import Search from "../../components/home/Search";
+import Template from "../../components/home/Template";
 
 const Index = () => {
   const navigation = useNavigation<any>();

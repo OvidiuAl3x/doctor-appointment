@@ -9,6 +9,9 @@ import heart from "../assets/icons/heart.png";
 import search from "../assets/icons/loupe.png";
 import templateDoctor from "../assets/icons/doctor (1).png";
 import templateDoctor2 from "../assets/icons/doctor (2).png";
+import notification from "../assets/icons/bell.png";
+import appointments from "../assets/icons/calendar.png";
+import home from "../assets/icons/home.png";
 
 export default {
   menu,
@@ -22,4 +25,7 @@ export default {
   search,
   templateDoctor,
   templateDoctor2,
+  appointments,
+  notification,
+  home,
 };
