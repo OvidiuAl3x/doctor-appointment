@@ -12,6 +12,7 @@ import templateDoctor2 from "../assets/icons/doctor (2).png";
 import notification from "../assets/icons/bell.png";
 import appointments from "../assets/icons/calendar.png";
 import home from "../assets/icons/home.png";
+import star from "../assets/icons/star.png";
 
 export default {
   menu,
@@ -28,4 +29,5 @@ export default {
   appointments,
   notification,
   home,
+  star,
 };
